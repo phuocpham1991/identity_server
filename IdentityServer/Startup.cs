@@ -15,10 +15,9 @@ namespace IdentityServer
             services.AddMvc();
             services.AddIdentityServer()
                 .AddDeveloperSigningCredential()
-                .AddInMemoryApiResources(config)
-                .AddInMemoryIdentityResources()
-                .AddInMemoryClients()
-                .AddTestUsers();
+                .AddInMemoryApiResources(config.getApiResource())
+                .AddInMemoryClients(config.GetClient());
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -28,11 +27,9 @@ namespace IdentityServer
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseMvc();
+            app.UseIdentityServer();
 
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
         }
     }
 }
